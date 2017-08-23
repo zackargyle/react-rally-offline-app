@@ -34,7 +34,8 @@ class App extends PureComponent {
 
     const { board, user } = this.state;
     this.props.updateSession({ user, board });
-    window.history.replaceState({}, '', `/?user=${user}&board=${board}`);
+    const url = `${window.location.pathname}?user=${user}&board=${board}`
+    window.history.replaceState({}, '', url);
   }
 
   render() {
