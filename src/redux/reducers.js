@@ -28,7 +28,7 @@ export const feeds = initialState => (state = initialState, action) => {
         };
       }
       return state;
-     default:
+    default:
       return state;
   }
 }
@@ -45,7 +45,19 @@ export const api = initialState => (state = initialState, action) => {
         ...state,
         [action.payload.key]: { fetching: false },
       };
-     default:
+    default:
+      return state;
+  }
+}
+
+export const session = initialState => (state = initialState, action) => {
+  switch (action.type) {
+    case 'UPDATE_SESSION':
+      return {
+        ...state,
+        ...action.payload,
+      };
+    default:
       return state;
   }
 }

@@ -1,3 +1,8 @@
+export const updateSession = update => ({
+  type: 'UPDATE_SESSION',
+  payload: update,
+});
+
 const getBoardUrl = (user, board) => `https://widgets.pinterest.com/v3/pidgets/boards/${user}/${board}/pins/?base_scheme=http`;
 
 export const fetchBoard = ({ user, board }) => dispatch => {

@@ -12,6 +12,12 @@ const withBoardData = config => Subject => {
       }
     }
 
+    componentWillReceiveProps(nextProps) {
+      if (!nextProps.inCache) {
+        nextProps.dispatch(fetchBoard(config.options(nextProps)));
+      }
+    }
+
     render() {
       const { inCache, ...externalProps } = this.props;
       return <Subject {...externalProps} />;
@@ -19,14 +25,18 @@ const withBoardData = config => Subject => {
   }
 
   return connect((state: State, props: Object) => {
-    const { user, board } = config.options(props);
+    const newProps = {...props, ...config.mapState(state, props) };
+    const { user, board } = config.options(newProps);
     const key = `board:${user}/${board}`;
     return {
-      ...(config.mapState ? config.mapState(state, props) : {}),
+      ...newProps,
       inCache: Boolean(state.api[key]),
       api: state.api,
     };
-  })(ApiData);
+  }, dispatch => ({
+    dispatch,
+    ...config.mapDispatch(dispatch)
+  }))(ApiData);
 }
 
 export default withBoardData;
